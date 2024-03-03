@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [message, setMessage] = useState("Hello, World!");
+    const [counter, setCounter] = useState(0);
+
+    const greeting = useCallback((text) => {
+        console.log(text);
+        return text;
+    }, []);
+
+    useEffect(() => {
+        greeting(message);
+    }, [greeting, message]);
+
+
+    const memoizedMessage = useMemo(() => {
+       return greeting (message)
+    }, [greeting, message])
+
+
+    return (
+        <div>
+            <p>{memoizedMessage}</p>
+            <button onClick={() => setCounter(counter + 1)}>
+                На меня нажали {counter} раз.
+            </button>
+        </div>
+    );
 }
 
 export default App;
